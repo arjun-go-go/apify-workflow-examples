@@ -1,6 +1,6 @@
 # YouTube transcript workflow publication copy
 
-Use the text below with the importable `workflow.json` and the setup guide in the [public repository](https://github.com/arjun-go-go/apify-workflow-examples). The repository is the current download destination; this workflow has not been submitted to or approved for the n8n template gallery.
+Use the text below with the importable `workflow.json` and the setup guide in the [public repository](https://github.com/arjun-go-go/apify-workflow-examples). The repository is the current download destination. The workflow was submitted for n8n template-library human review on October 16, 2026; it is not yet approved or publicly listed in that gallery.
 
 ## n8n template title
 
@@ -79,7 +79,7 @@ The tutorial link and an expanded integration guide are live in the Actor's Stor
 
 ## Submission route
 
-Start from [n8n's official template documentation](https://docs.n8n.io/workflows/templates/) and follow its link to the Creator hub. Use the current creator and submission process shown there. The title and description above are prepared copy, not a claim that an application or template has been submitted or approved.
+Start from [n8n's official template documentation](https://docs.n8n.io/workflows/templates/) and follow its link to the Creator hub. Use the current creator and submission process shown there. The template is now awaiting human review. Its final submission form contains the verified setup steps, node requirements, status handling, paid Actor disclosure, and limits; the prepared copy above is not a claim of gallery approval.
 
 The Creator Portal uses a separate account from n8n Cloud. Register at https://creators.n8n.io/register or sign in at https://creators.n8n.io/login. Upload `workflow.json` and use the approximately 200-word Template description above. It includes a workflow image and setup instructions; the canvas note contains the same description text. This package contains no recording. Review any account or publication agreement yourself before acceptance.
 
