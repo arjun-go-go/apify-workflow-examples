@@ -1,0 +1,15 @@
+{
+  "exampleNote": "A real blocked-request record, retained for documentation. It does not mean captions are missing. This wrapper is documentation, not the Actor's output schema.",
+  "record": {
+    "recordType": "transcriptStatus",
+    "status": "requestBlocked",
+    "inputValue": "https://www.youtube.com/watch?v=SRMUijiQ9Mo",
+    "errorCode": "YOUTUBE_REQUEST_BLOCKED",
+    "message": "YouTube blocked this request with an automated-traffic check.",
+    "retryable": true,
+    "suggestion": "Retry this video later. This response does not mean that captions are missing.",
+    "scrapedAt": "2026-10-16T05:39:05.786535Z",
+    "videoId": "SRMUijiQ9Mo",
+    "url": "https://www.youtube.com/watch?v=SRMUijiQ9Mo"
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "name": "Save YouTube transcripts to Google Sheets with Apify",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "c62ef050-cbde-43ba-a1c2-2737ef9e75ae",
+      "name": "Run manually",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 160]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "93194c03-a980-4871-a7be-e3474b3a0d60",
+              "name": "videoUrl",
+              "value": "https://www.youtube.com/watch?v=SRMUijiQ9Mo",
+              "type": "string"
+            },
+            {
+              "id": "aab35d6d-c59c-41ad-b292-20eb018f4765",
+              "name": "spreadsheetUrl",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8d2a7daf-8d4b-4a39-b2ad-c5227a0bd645",
+              "name": "sheetName",
+              "value": "Transcripts",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0910c70e-c176-4137-9f91-ceae85747edf",
+      "name": "Workflow input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [240, 160],
+      "notesInFlow": true,
+      "notes": "Set your video URL and Google spreadsheet URL. The worksheet name must match sheetName."
+    },
+    {
+      "parameters": {
+        "resource": "Actors",
+        "operation": "Run actor",
+        "waitForFinish": true,
+        "actorId": {
+          "__rl": true,
+          "value": "oBWXXZjX0wyemSTk9",
+          "mode": "list",
+          "cachedResultName": "YouTube Transcript Scraper with SRT and VTT (arjun_code/youtube-transcript-scraper)",
+          "cachedResultUrl": "https://console.apify.com/actors/oBWXXZjX0wyemSTk9/input"
+        },
+        "customBody": "={{ JSON.stringify({ videos: [$json.videoUrl], languages: ['auto'], captionType: 'preferManual', fallbackToAnyLanguage: true, includeSegments: false, subtitleFormats: [] }) }}",
+        "timeout": 180,
+        "memory": 512,
+        "maxTotalChargeUsd": 0.01,
+        "build": "latest",
+        "authentication": "apifyApi"
+      },
+      "id": "93f9c763-04ae-4b0d-8e65-45b0799504a6",
+      "name": "Run YouTube Transcript Actor",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 2,
+      "position": [500, 160],
+      "notesInFlow": true,
+      "notes": "Connect your Apify credential. Wait for the run to finish, including FAILED runs, and pass its defaultDatasetId to Read transcript results. Do not enable Retry On Fail here: the Actor handles its own bounded request retries."
+    },
+    {
+      "parameters": {
+        "resource": "Datasets",
+        "operation": "Get items",
+        "datasetId": "={{ $json.defaultDatasetId }}",
+        "offset": 0,
+        "limit": 1,
+        "options": {},
+        "authentication": "apifyApi"
+      },
+      "id": "48ec7391-8d95-4f42-8c65-094396e2657b",
+      "name": "Read transcript results",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 2,
+      "position": [740, 160],
+      "notesInFlow": true,
+      "notes": "Use the same Apify credential. Read this run's Dataset even when the Actor status is FAILED; a requestBlocked status is not an empty or successful transcript."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f5f2d9f7-893e-4329-b85b-f88af78dc8a4",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f3133781-595f-4a32-81d5-30d34ef903f4",
+      "name": "Transcript available?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [980, 160]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Workflow input').first().json.spreadsheetUrl }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('Workflow input').first().json.sheetName }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Video ID": "={{ $json.videoId }}",
+            "Video title": "={{ $json.title }}",
+            "Video URL": "={{ $json.url }}",
+            "Channel": "={{ $json.channelName }}",
+            "Caption language": "={{ $json.languageCode }}",
+            "Auto-generated": "={{ $json.isAutoGenerated }}",
+            "Transcript": "={{ $json.transcriptText }}",
+            "Scraped at": "={{ $json.scrapedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "Video ID", "displayName": "Video ID", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Video title", "displayName": "Video title", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Video URL", "displayName": "Video URL", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Channel", "displayName": "Channel", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Caption language", "displayName": "Caption language", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Auto-generated", "displayName": "Auto-generated", "required": false, "defaultMatch": false, "display": true, "type": "boolean", "canBeUsedToMatch": true },
+            { "id": "Transcript", "displayName": "Transcript", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Scraped at", "displayName": "Scraped at", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "RAW",
+          "useAppend": true
+        }
+      },
+      "id": "53a18a5d-a419-43f0-a3f6-55914bb8d508",
+      "name": "Save transcript to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [1260, 60],
+      "notesInFlow": true,
+      "notes": "Select your Google Sheets credential. Append one complete caption track per video. No text is intentionally shortened."
+    },
+    {
+      "parameters": {},
+      "id": "7d70da62-8ef0-473f-8ad4-120465aeb35d",
+      "name": "Read caption status here",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1260, 300],
+      "notesInFlow": true,
+      "notes": "Inspect this node's output for the exact status, errorCode, message, retryable, and suggestion, including requestBlocked from FAILED Actor runs. These records are not saved as successful transcripts or charged as transcript results."
+    },
+    {
+      "parameters": {
+        "content": "## Setup\n1. Install @apify/n8n-nodes-apify and select the same Apify credential on both Apify nodes.\n2. In Workflow input, enter your video URL and spreadsheet URL.\n3. Select your Google Sheets credential. Use a worksheet named Transcripts with the eight column headers listed in the setup guide.\n4. Execute manually. Wait for the Actor, then read its Dataset regardless of SUCCEEDED or FAILED. Successful transcripts go to Sheets; caption statuses stay on the lower branch. Do not enable node-level automatic reruns.\n\nThe Actor reads existing captions. It does not transcribe audio, translate, or summarize. Actor runs and third-party services may incur charges.",
+        "height": 320,
+        "width": 740,
+        "color": 5
+      },
+      "id": "d69a3a58-b4d3-460a-918f-ded14545a67a",
+      "name": "Setup guide",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [140, -260]
+    }
+  ],
+  "connections": {
+    "Run manually": {
+      "main": [[{ "node": "Workflow input", "type": "main", "index": 0 }]]
+    },
+    "Workflow input": {
+      "main": [[{ "node": "Run YouTube Transcript Actor", "type": "main", "index": 0 }]]
+    },
+    "Run YouTube Transcript Actor": {
+      "main": [[{ "node": "Read transcript results", "type": "main", "index": 0 }]]
+    },
+    "Read transcript results": {
+      "main": [[{ "node": "Transcript available?", "type": "main", "index": 0 }]]
+    },
+    "Transcript available?": {
+      "main": [
+        [{ "node": "Save transcript to Google Sheets", "type": "main", "index": 0 }],
+        [{ "node": "Read caption status here", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}

@@ -1,0 +1,10 @@
+{
+  "videos": [
+    "https://www.youtube.com/watch?v=SRMUijiQ9Mo"
+  ],
+  "languages": ["auto"],
+  "captionType": "preferManual",
+  "fallbackToAnyLanguage": true,
+  "includeSegments": false,
+  "subtitleFormats": []
+}
