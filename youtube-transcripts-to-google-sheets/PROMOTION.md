@@ -12,29 +12,34 @@ Retrieve an existing YouTube caption track and save its full text, language, and
 
 ## Template description
 
-Collect existing YouTube captions in a spreadsheet for research notes, content review, and later LLM workflows. Enter one video or Shorts URL, connect your own Apify and Google Sheets credentials, and run the workflow manually.
+![Workflow overview](https://raw.githubusercontent.com/arjun-go-go/apify-workflow-examples/main/youtube-transcripts-to-google-sheets/assets/workflow.png)
 
-### How it works
+### Who is this for?
 
-The workflow starts YouTube Transcript Scraper, waits for the Actor to finish, and reads that run's Dataset. A successful caption track adds one row with the video ID, title, URL, channel, returned language, automatic-caption flag, complete fetched text, and extraction time.
+Researchers and content teams who want existing YouTube captions in a spreadsheet for review or later LLM workflows.
 
-Caption statuses such as `noTranscript`, `languageUnavailable`, and `requestBlocked` follow a separate branch. They are not written as empty transcripts. Failed Actor runs can still provide their saved status records; a completed n8n execution does not itself guarantee a transcript was found.
+### What it does
+
+Enter one video or Shorts URL. Apify retrieves one selected caption track. The workflow saves its full fetched text, title, URL, channel, language, automatic-caption flag, and extraction time in one Google Sheets row.
+
+Missing captions and blocked requests follow a separate status branch, not blank transcript rows.
 
 ### Setup
 
-1. Install the official `@apify/n8n-nodes-apify` node and import `workflow.json`.
-2. Create a worksheet named `Transcripts` with the eight headers from the setup guide.
-3. Select the same Apify credential on both Apify nodes and connect Google Sheets.
-4. Set `videoUrl`, `spreadsheetUrl`, and `sheetName` in **Workflow input**.
-5. Execute manually and inspect the successful row or caption-status branch.
+1. Install the verified Apify node and import the workflow JSON.
+2. Connect your own Apify and Google Sheets credentials.
+3. Create a worksheet with the eight headers in the [setup guide](https://github.com/arjun-go-go/apify-workflow-examples/tree/main/youtube-transcripts-to-google-sheets).
+4. Set `videoUrl`, `spreadsheetUrl`, and `sheetName` in **Workflow input**, then execute manually.
 
-### Costs and scope
+### Requirements and cost
 
-The workflow has no separate fee. As checked on October 16, 2026, the Actor charges $0.002 per successfully saved transcript plus $0.00005 per start at this workflow's 512 MB setting. n8n and Google services may have their own charges. Review the Actor's current Store pricing before running.
+Requires n8n with the Apify node, an Apify account, Google Sheets access, and a video with captions. Verified Apify nodes support n8n Cloud and self-hosted instances.
 
-This retrieves existing captions. It does not transcribe audio, translate, or summarize. Source captions can contain mistakes or omit speech. This example requests text only, not SRT/VTT files. It is single-video, manual, and append-only; rerunning a successful URL adds another row.
+The template has no separate fee. Actor runs are paid; check [current pricing](https://apify.com/arjun_code/youtube-transcript-scraper). Other service charges may apply.
 
-[YouTube Transcript Scraper](https://apify.com/arjun_code/youtube-transcript-scraper) by Arjun AI. Independent tool, not affiliated with YouTube or Google.
+### Customization and limits
+
+Change the Actor language settings if needed. This example requests text only, not SRT/VTT. Rerunning a successful URL appends another row. It does not transcribe, translate, summarize, or schedule runs. Source captions can contain errors or omit speech.
 
 ## Suggested search phrases
 
@@ -70,10 +75,12 @@ Save existing captions to Google Sheets with n8n. This manual workflow writes on
 
 [Import the workflow and follow the setup guide](https://github.com/arjun-go-go/apify-workflow-examples/tree/main/youtube-transcripts-to-google-sheets).
 
-This paragraph is prepared for the Actor's integrations section; it has not been applied to the Store README. Do not link the private n8n instance or personal spreadsheet.
+The tutorial link and an expanded integration guide are live in the Actor's Store README as of build 0.1.15 (October 16, 2026). Do not link the private n8n instance or personal spreadsheet.
 
 ## Submission route
 
 Start from [n8n's official template documentation](https://docs.n8n.io/workflows/templates/) and follow its link to the Creator hub. Use the current creator and submission process shown there. The title and description above are prepared copy, not a claim that an application or template has been submitted or approved.
 
-Upload `workflow.json`, use the setup guide for the long description, and attach supported screenshot files if the form offers image uploads. This package contains no recording. Review any account or publication agreement yourself before acceptance.
+The Creator Portal uses a separate account from n8n Cloud. Register at https://creators.n8n.io/register or sign in at https://creators.n8n.io/login. Upload `workflow.json` and use the approximately 200-word Template description above. It includes a workflow image and setup instructions; the canvas note contains the same description text. This package contains no recording. Review any account or publication agreement yourself before acceptance.
+
+The submission guidelines contain a general self-hosted-only warning for community nodes. This workflow uses Apify's verified node, which [Apify documents as supporting n8n Cloud and self-hosted instances](https://apify.com/integrations/n8n), and the example was verified on Cloud. Describe that dependency accurately rather than claiming that it is self-hosted only. Gallery acceptance is still subject to n8n review.

@@ -183,16 +183,16 @@
     },
     {
       "parameters": {
-        "content": "## Setup\n1. Install @apify/n8n-nodes-apify and select the same Apify credential on both Apify nodes.\n2. In Workflow input, enter your video URL and spreadsheet URL.\n3. Select your Google Sheets credential. Use a worksheet named Transcripts with the eight column headers listed in the setup guide.\n4. Execute manually. Wait for the Actor, then read its Dataset regardless of SUCCEEDED or FAILED. Successful transcripts go to Sheets; caption statuses stay on the lower branch. Do not enable node-level automatic reruns.\n\nThe Actor reads existing captions. It does not transcribe audio, translate, or summarize. Actor runs and third-party services may incur charges.",
-        "height": 320,
-        "width": 740,
-        "color": 5
+        "content": "# Save YouTube transcripts to Google Sheets with Apify\n\n### Who is this for?\n\nResearchers and content teams who want existing YouTube captions in a spreadsheet for review or later LLM workflows.\n\n### What it does\n\nEnter one video or Shorts URL. Apify retrieves one selected caption track. The workflow saves its full fetched text, title, URL, channel, language, automatic-caption flag, and extraction time in one Google Sheets row.\n\nMissing captions and blocked requests follow a separate status branch, not blank transcript rows.\n\n### Setup\n\n1. Install the verified Apify node and import the workflow JSON.\n2. Connect your own Apify and Google Sheets credentials.\n3. Create a worksheet with the eight headers in the [setup guide](https://github.com/arjun-go-go/apify-workflow-examples/tree/main/youtube-transcripts-to-google-sheets).\n4. Set `videoUrl`, `spreadsheetUrl`, and `sheetName` in **Workflow input**, then execute manually.\n\n### Requirements and cost\n\nRequires n8n with the Apify node, an Apify account, Google Sheets access, and a video with captions. Verified Apify nodes support n8n Cloud and self-hosted instances.\n\nThe template has no separate fee. Actor runs are paid; check [current pricing](https://apify.com/arjun_code/youtube-transcript-scraper). Other service charges may apply.\n\n### Customization and limits\n\nChange the Actor language settings if needed. This example requests text only, not SRT/VTT. Rerunning a successful URL appends another row. It does not transcribe, translate, summarize, or schedule runs. Source captions can contain errors or omit speech.",
+        "height": 820,
+        "width": 980,
+        "color": 1
       },
       "id": "d69a3a58-b4d3-460a-918f-ded14545a67a",
       "name": "Setup guide",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [140, -260]
+      "position": [0, -780]
     }
   ],
   "connections": {

@@ -12,6 +12,8 @@ The workflow file has no separate fee. Actor runs are paid; see [Costs](#costs) 
 
 ![Successful n8n workflow with a separate caption status branch](assets/workflow.png)
 
+The screenshot records the verified execution before a documentation-only canvas-note update. The importable template has the same functional nodes, connections, and output mapping, with an expanded setup note.
+
 ## Requirements
 
 - An n8n Cloud or self-hosted instance.

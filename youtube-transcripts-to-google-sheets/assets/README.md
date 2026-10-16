@@ -1,6 +1,7 @@
 # Screenshots of the verified workflow
 
 - `workflow.png` shows the successful n8n execution canvas, including the path that saved one transcript to Google Sheets.
+- The importable template's setup note was expanded afterward for template submission. The screenshot preserves the actual verified execution; functional nodes, connections, and output mapping are unchanged.
 - `sheets-output.png` shows the Google Sheets node's actual successful output in n8n. It is a write-result view, not a public spreadsheet link. The interface shows a shortened preview of the text; the saved 7,038-character value was separately read back and compared in full.
 - `status-message.png` shows the actual `requestBlocked` record read during the failed-run replay. It illustrates the status branch, not a new live request or another Actor start.
 
